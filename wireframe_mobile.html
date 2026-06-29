@@ -4413,6 +4413,27 @@
     document.getElementById('scrollArea').scrollTop = 0;
     updateHeader();
   });
+
+  (function() {
+    var FRAME_H = 812;
+    var FRAME_W = 375;
+    var PAD = 40;
+    function scaleFrame() {
+      var frame = document.querySelector('.phone-frame');
+      if (!frame) return;
+      var scale = Math.min(1,
+        (window.innerHeight - PAD) / FRAME_H,
+        (window.innerWidth - PAD) / FRAME_W
+      );
+      var shrinkH = (FRAME_H - FRAME_H * scale) / 2;
+      frame.style.transform = 'scale(' + scale + ')';
+      frame.style.transformOrigin = 'center center';
+      frame.style.marginTop = '-' + shrinkH + 'px';
+      frame.style.marginBottom = '-' + shrinkH + 'px';
+    }
+    scaleFrame();
+    window.addEventListener('resize', scaleFrame);
+  })();
 </script>
 </body>
 </html>
