@@ -318,8 +318,8 @@
     margin-top: 32px; padding-top: 24px;
   }
   .why-title {
-    font-size: 16px; font-weight: 700; color: var(--wf-100);
-    margin-bottom: 16px; text-align: left;
+    font-size: 18px; font-weight: 700; color: var(--wf-100);
+    margin-bottom: 16px; text-align: center;
   }
   .why-list { display: flex; flex-direction: column; }
   .why-item {
@@ -1420,18 +1420,17 @@
 
         <div class="why-section">
           <p class="why-title">¿Por qué elegir FIATC?</p>
-          <div style="display:flex;align-items:center;padding:14px 0;margin-bottom:4px;border-top:1px solid var(--wf-20);border-bottom:1px solid var(--wf-20);">
-            <div style="flex:1;text-align:center;">
+          <div style="display:flex;gap:10px;margin-bottom:16px;">
+            <div style="flex:1;background:var(--wf-20);border-radius:10px;padding:12px;text-align:center;">
               <div style="font-size:20px;font-weight:700;color:var(--wf-100);letter-spacing:-0.5px;">571.674</div>
-              <div style="font-size:11px;color:var(--wf-60);margin-top:3px;line-height:1.3;">clientes confían en nosotros</div>
+              <div style="font-size:13px;color:var(--wf-90);margin-top:4px;line-height:1.3;">clientes confían en nosotros</div>
             </div>
-            <div style="width:1px;height:36px;background:var(--wf-20);"></div>
-            <div style="flex:1;text-align:center;">
+            <div style="flex:1;background:var(--wf-20);border-radius:10px;padding:12px;text-align:center;">
               <div style="font-size:20px;font-weight:700;color:var(--wf-100);">8,8</div>
-              <div style="font-size:11px;color:var(--wf-60);margin-top:3px;line-height:1.3;">valoración media de clientes</div>
+              <div style="font-size:13px;color:var(--wf-90);margin-top:4px;line-height:1.3;">valoración media de clientes</div>
             </div>
           </div>
-          <div class="reviews-scroll">
+          <div class="reviews-scroll" id="reviewsCarousel">
           <div class="review-card">
             <div class="review-stars">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="color:var(--wf-90)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -1550,7 +1549,7 @@
         <h1 class="step-title">¿Para quién es el seguro?</h1>
         <p class="step-subtitle">Selecciona quién quieres incluir en la póliza</p>
         <div class="step-hero-msg" style="margin-bottom:20px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="17" y1="7" x2="7" y2="17"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
           <span>Cuantos más asegurados, <strong>más descuento</strong>.</span>
         </div>
         <div class="pref-list">
