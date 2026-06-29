@@ -23,7 +23,7 @@
     background: #D0D8E4;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     height: 100vh;
     overflow: hidden;
     margin: 0;
@@ -3052,7 +3052,7 @@
       <div class="interes-title" style="text-align:left; font-size:24px; margin-bottom:6px;">¿Cómo podemos ayudarte?</div>
       <div class="interes-subtitle" style="text-align:left;">Tú tienes el control, elige cómo continuar</div>
       <div class="interes-links" style="margin-top: 28px;">
-        <button class="interes-link-btn" onmousedown="event.preventDefault();closeHablemosSheet();setTimeout(toggleChat,80)">
+        <button class="interes-link-btn" onmousedown="event.preventDefault();closeHablemosSheet();setTimeout(function(){var f=document.getElementById('chatFab');f.style.animation='none';f.classList.add('chat-visible');requestAnimationFrame(function(){f.style.animation='';toggleChat();});},80)">
           <div class="interes-link-icon">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.2 9.5L20.5 11L13.2 12.5L12 20L10.8 12.5L3.5 11L10.8 9.5L12 2Z"/><path d="M19 2L19.7 5.3L23 6L19.7 6.7L19 10L18.3 6.7L15 6L18.3 5.3L19 2Z"/><path d="M5 16L5.5 18.5L8 19L5.5 19.5L5 22L4.5 19.5L2 19L4.5 18.5L5 16Z"/></svg>
           </div>
@@ -4422,20 +4422,18 @@
     function scaleFrame() {
       var frame = document.querySelector('.phone-frame');
       if (!frame) return;
+      var MAX_SCALE = (1300 - PAD) / FRAME_H;
       var scale = Math.min(
+        MAX_SCALE,
         (window.innerHeight - PAD) / FRAME_H,
         (window.innerWidth - PAD) / FRAME_W
       );
+      var scaledH = FRAME_H * scale;
+      var topMargin = (window.innerHeight - scaledH) / 2;
       frame.style.transform = 'scale(' + scale + ')';
-      frame.style.transformOrigin = 'center center';
-      if (scale < 1) {
-        var shrinkH = (FRAME_H - FRAME_H * scale) / 2;
-        frame.style.marginTop = '-' + shrinkH + 'px';
-        frame.style.marginBottom = '-' + shrinkH + 'px';
-      } else {
-        frame.style.marginTop = '';
-        frame.style.marginBottom = '';
-      }
+      frame.style.transformOrigin = 'top center';
+      frame.style.marginTop = topMargin + 'px';
+      frame.style.marginBottom = '0';
     }
     scaleFrame();
     window.addEventListener('resize', scaleFrame);
