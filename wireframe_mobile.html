@@ -1212,6 +1212,11 @@
   #step0 .recover-wrap { border-top: none; padding-top: 0; margin-top: 32px; }
   .interes-help-view { display: none; }
   .interes-call-view { display: none; }
+  .call-confirm-view { display: none; text-align: center; padding: 16px 0 8px; }
+  .call-confirm-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--wf-20); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+  .call-confirm-title { font-size: 20px; font-weight: 700; color: var(--wf-100); margin-bottom: 12px; line-height: 1.25; }
+  .call-confirm-text { font-size: 14px; color: var(--wf-90); line-height: 1.6; margin-bottom: 32px; }
+  .call-confirm-text strong { color: var(--wf-90); font-weight: 600; }
   .call-slot-label { font-size: 14px; font-weight: 600; color: var(--wf-90); margin-bottom: 10px; display: block; }
   .call-slots { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
   .call-slot {
@@ -1643,7 +1648,7 @@
         <div class="pref-list">
           <label class="pref-card" onclick="nextStep()">
             <div class="pref-body">
-              <div class="pref-title">No soy cliente</div>
+              <div class="pref-title">No, no soy cliente</div>
             </div>
           </label>
           <label class="pref-card" onclick="nextStep()">
@@ -3090,11 +3095,19 @@
           <button class="call-slot" onmousedown="event.preventDefault();this.parentElement.querySelectorAll('.call-slot').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')">Mediodía (13h–16h)</button>
           <button class="call-slot" onmousedown="event.preventDefault();this.parentElement.querySelectorAll('.call-slot').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')">Tarde (16h–20h)</button>
         </div>
-        <button class="interes-cta-primary" onmousedown="event.preventDefault();closeInteresSheet()">
+        <button class="interes-cta-primary" onmousedown="event.preventDefault();interesShowConfirm()">
           <span>Agendar llamada</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
         <p class="legal-mini" style="margin:28px 0 0;">Al solicitar la llamada trataremos tus datos para gestionar tu solicitud y ponernos en contacto contigo. Asimismo puedes ejercer tus derechos de protección de datos y ampliar información sobre la política de privacidad <a href="#" onclick="return false;">aquí</a>.</p>
+      </div>
+      <div class="call-confirm-view" id="interesCallConfirm">
+        <div class="call-confirm-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="call-confirm-title">¡Te llamamos pronto!</div>
+        <p class="call-confirm-text"></p>
+        <button class="interes-cta-primary" onmousedown="event.preventDefault();closeInteresSheet()">Entendido</button>
       </div>
 
     </div>
@@ -3170,11 +3183,19 @@
           <button class="call-slot" onmousedown="event.preventDefault();this.parentElement.querySelectorAll('.call-slot').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')">Mediodía (13h–16h)</button>
           <button class="call-slot" onmousedown="event.preventDefault();this.parentElement.querySelectorAll('.call-slot').forEach(s=>s.classList.remove('selected'));this.classList.add('selected')">Tarde (16h–20h)</button>
         </div>
-        <button class="interes-cta-primary" onmousedown="event.preventDefault();closeHablemosSheet()">
+        <button class="interes-cta-primary" onmousedown="event.preventDefault();hablemosShowConfirm()">
           <span>Agendar llamada</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
         <p class="legal-mini" style="margin:28px 0 0;">Al solicitar la llamada trataremos tus datos para gestionar tu solicitud y ponernos en contacto contigo. Asimismo puedes ejercer tus derechos de protección de datos y ampliar información sobre la política de privacidad <a href="#" onclick="return false;">aquí</a>.</p>
+      </div>
+      <div class="call-confirm-view" id="hablemosCallConfirm">
+        <div class="call-confirm-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="call-confirm-title">¡Te llamamos pronto!</div>
+        <p class="call-confirm-text"></p>
+        <button class="interes-cta-primary" onmousedown="event.preventDefault();closeHablemosSheet()">Entendido</button>
       </div>
 
     </div>
@@ -3712,6 +3733,7 @@
     document.querySelector('#interesSheet .interes-main').style.display = '';
     document.querySelector('#interesSheet .interes-help-view').style.display = '';
     document.querySelector('#interesSheet .interes-call-view').style.display = '';
+    document.getElementById('interesCallConfirm').style.display = '';
   }
 
   function interesShowHelp() {
@@ -3728,7 +3750,15 @@
     document.querySelector('#interesSheet .interes-help-view').style.display = 'none';
     document.querySelector('#interesSheet .interes-call-view').style.display = 'block';
   }
-
+  function interesShowConfirm() {
+    var view = document.querySelector('#interesSheet .interes-call-view');
+    var phone = view.querySelector('input[type="tel"]').value || '612 345 678';
+    var slot = (view.querySelector('.call-slot.selected') || {}).textContent || 'Mañana (9h–13h)';
+    var el = document.getElementById('interesCallConfirm');
+    el.querySelector('.call-confirm-text').innerHTML = 'En menos de 24h un asesor de FIATC se pondrá en contacto contigo al <strong>' + phone + '</strong> en horario de <strong>' + slot + '</strong>.';
+    view.style.display = 'none';
+    el.style.display = 'block';
+  }
   function interesBackToHelp() {
     document.querySelector('#interesSheet .interes-call-view').style.display = 'none';
     document.querySelector('#interesSheet .interes-help-view').style.display = 'block';
@@ -3741,10 +3771,20 @@
     document.getElementById('hablemosSheet').classList.remove('open');
     document.querySelector('#hablemosSheet .hablemos-main').style.display = '';
     document.querySelector('#hablemosSheet .hablemos-call-view').style.display = '';
+    document.getElementById('hablemosCallConfirm').style.display = '';
   }
   function hablemosShowCall() {
     document.querySelector('#hablemosSheet .hablemos-main').style.display = 'none';
     document.querySelector('#hablemosSheet .hablemos-call-view').style.display = 'block';
+  }
+  function hablemosShowConfirm() {
+    var view = document.querySelector('#hablemosSheet .hablemos-call-view');
+    var phone = view.querySelector('input[type="tel"]').value || '612 345 678';
+    var slot = (view.querySelector('.call-slot.selected') || {}).textContent || 'Mañana (9h–13h)';
+    var el = document.getElementById('hablemosCallConfirm');
+    el.querySelector('.call-confirm-text').innerHTML = 'En menos de 24h un asesor de FIATC se pondrá en contacto contigo al <strong>' + phone + '</strong> en horario de <strong>' + slot + '</strong>.';
+    view.style.display = 'none';
+    el.style.display = 'block';
   }
   function hablemosBackToMain() {
     document.querySelector('#hablemosSheet .hablemos-call-view').style.display = 'none';
@@ -4556,6 +4596,7 @@
     // Reset all views inside sheets
     document.querySelectorAll('.interes-help-view, .interes-call-view, .hablemos-call-view').forEach(v => v.style.display = '');
     document.querySelectorAll('.interes-main, .hablemos-main').forEach(v => v.style.display = '');
+    document.querySelectorAll('.call-confirm-view').forEach(v => v.style.display = '');
     // Reset chat
     if (typeof closeChat === 'function' && chatOpen) closeChat();
     // Reset flow
@@ -4572,18 +4613,18 @@
 
 <button onclick="resetProto()" style="
   position:fixed; right:24px; top:24px;
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  background:rgba(255,255,255,0.7); backdrop-filter:blur(8px);
+  display:flex; flex-direction:row; align-items:center; gap:8px;
+  background:rgba(255,255,255,0.85); backdrop-filter:blur(8px);
   border:1px solid rgba(0,0,0,0.1); border-radius:12px;
-  padding:12px 14px; cursor:pointer; color:#8994A5;
-  font-family:'Roboto',sans-serif; font-size:11px; font-weight:500;
+  padding:12px 18px; cursor:pointer; color:#8994A5;
+  font-family:'Roboto',sans-serif; font-size:13px; font-weight:600;
   box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:opacity 0.2s;
 " onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
     <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
     <path d="M3 3v5h5"/>
   </svg>
-  Resetear
+  Resetear prototipo
 </button>
 
 </body>
