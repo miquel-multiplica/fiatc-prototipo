@@ -1053,8 +1053,8 @@
     background: var(--wf-0); transition: all 0.15s; white-space: nowrap; cursor: pointer;
   }
   .gender-pill input:checked + span {
-    border-color: var(--wf-100); background: var(--wf-100);
-    color: var(--wf-0); font-weight: 700;
+    border-color: var(--wf-90); background: var(--wf-20);
+    color: var(--wf-100); font-weight: 600;
   }
 
   /* ── SUMMARY FAB ── */
@@ -1168,7 +1168,7 @@
   .quest-question-label { font-size: 14px; color: var(--wf-90); line-height: 1.4; margin-bottom: 10px; display: block; }
   .quest-yesno { display: flex; gap: 8px; }
   .quest-yn-btn { flex: 1; padding: 8px; border: 1px solid var(--wf-40); border-radius: 8px; background: var(--wf-0); font-size: 13px; font-weight: 500; color: var(--wf-60); cursor: pointer; font-family: inherit; transition: all 0.15s; }
-  .quest-yn-btn.selected { border-color: var(--wf-60); background: var(--wf-20); color: var(--wf-100); font-weight: 600; }
+  .quest-yn-btn.selected { border-color: var(--wf-90); background: var(--wf-20); color: var(--wf-100); font-weight: 600; }
   .quest-imc { display: none; background: var(--wf-20); border-radius: 10px; padding: 12px 14px; margin-bottom: 24px; align-items: baseline; gap: 8px; }
   .quest-imc.visible { display: flex; }
   .quest-imc-num { font-size: 14px; font-weight: 700; color: var(--wf-100); line-height: 1; }
@@ -3567,6 +3567,7 @@
     if (srcTel && srcTel.value) document.getElementById('c1Tel').value = srcTel.value;
     if (srcEmail && srcEmail.value) document.getElementById('c1Email').value = srcEmail.value;
     document.querySelector('.phone-frame').classList.add('contract-active');
+    showChatFab();
     document.getElementById('step8').classList.add('active');
     updateHeader();
     document.getElementById('scrollArea').scrollTop = 0;
@@ -4084,13 +4085,12 @@
     btn.closest('.quest-yesno').querySelectorAll('.quest-yn-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     updateQuestCounter();
-    const next = btn.closest('.quest-question').nextElementSibling;
-    if (next && next.classList.contains('quest-question')) {
-      setTimeout(() => {
-        const scroll = document.querySelector('.quest-scroll');
-        const offset = next.getBoundingClientRect().top - scroll.getBoundingClientRect().top + scroll.scrollTop - 16;
-        scroll.scrollTo({ top: offset, behavior: 'smooth' });
-      }, 280);
+    var scroll = document.querySelector('.quest-scroll');
+    var answered = scroll.querySelectorAll('.quest-yn-btn.selected').length;
+    if (answered >= 3) {
+      setTimeout(function() {
+        scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
+      }, 250);
     }
   }
   function saveQuest() {
