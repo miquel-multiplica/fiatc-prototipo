@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIATC · Seguro de Salud — Wireframe</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    :root {
+      /* Paleta oficial Multiplica wireframe kit */
+      --gray-10:  #F7FAFC;
+      --gray-20:  #EBF0F4;
+      --gray-40:  #CED7E5;
+      --gray-60:  #8994A5;
+      --gray-90:  #424B5A;
+      --gray-100: #272A30;
+      --white:    #FFFFFF;
+
+      /* aliases funcionales */
+      --gray-100: var(--gray-10);   /* bg página */
+      --gray-200: var(--gray-20);   /* bordes suaves, hover */
+      --gray-300: var(--gray-40);   /* bordes inputs */
+      --gray-400: var(--gray-60);   /* textos secundarios */
+      --gray-600: var(--gray-90);   /* textos medios, iconos */
+      --gray-900: #272A30;          /* textos principales, CTAs */
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-900);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .header-wrap {
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 10;
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .header .phone-wrap { justify-self: end; }
+
+    .btn-back {
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-600);
+      border-radius: var(--radius-sm);
+      transition: background 0.15s;
+    }
+    .btn-back:hover { background: var(--gray-100); }
+    .btn-back.hidden { visibility: hidden; pointer-events: none; }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .logo-wrap svg {
+      width: 100px;
+      height: auto;
+    }
+
+    .phone-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gray-600);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .phone-wrap:hover { color: var(--gray-900); }
+    .phone-wrap svg { flex-shrink: 0; }
+
+    /* ── PROGRESS BAR (full width, below header) ── */
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--gray-300);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gray-600);
+      transition: width 0.4s ease;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    .step { display: none; }
+    .step.active { display: block; animation: stepEnter 0.7s cubic-bezier(0.25, 1, 0.5, 1); }
+
+    @keyframes stepEnter {
+      from { opacity: 0; transform: translateX(12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── STEP HEADING ── */
+    .step-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .step-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gray-900);
+      line-height: 1.2;
+      margin-bottom: 40px;
+    }
+    .step-hint {
+      font-size: 14px;
+      color: var(--gray-400);
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
+
+    /* ── WHY SECTION (paso 0) — full bleed ── */
+    .why-section {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-top: 48px;
+      padding: 64px 40px 80px;
+      border-top: 1px solid var(--gray-200);
+    }
+    .why-title {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 56px;
+      max-width: 1224px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+    .why-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 56px 40px;
+      max-width: 1224px;
+      margin: 0 auto;
+    }
+    .why-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .why-icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      background: var(--gray-200);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .why-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .why-text strong {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-900);
+      line-height: 1.3;
+    }
+    .why-text span {
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 760px) {
+      .why-section { padding: 32px 24px 40px; }
+      .why-list { grid-template-columns: 1fr 1fr; gap: 20px; }
+    }
+    @media (max-width: 480px) {
+      .why-list { grid-template-columns: 1fr; }
+    }
+
+    /* ── OPTION CARDS (paso 0) ── */
+    .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .option-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      background: white;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 400;
+      font-family: inherit;
+      color: var(--gray-900);
+      text-align: left;
+      transition: all 0.15s;
+      width: 100%;
+    }
+    .option-card:hover {
+      border-color: var(--gray-600);
+      background: var(--gray-200);
+    }
+    .option-card svg {
+      flex-shrink: 0;
+      color: var(--gray-400);
+    }
+
+    .recover-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--gray-200);
+    }
+    .recover-text {
+      font-size: 16px;
+      color: var(--gray-600);
+    }
+    .recover-link {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-900);
+      text-decoration: underline;
+      padding: 0;
+      transition: color 0.15s;
+    }
+    .recover-link:hover { color: var(--gray-600); }
+
+    /* ── FIELDS — floating label ── */
+    .field { margin-bottom: 20px; }
+
+    .field .input-wrap {
+      position: relative;
+    }
+
+    .field .input-wrap input,
+    .field .input-wrap select {
+      width: 100%;
+      padding: 22px 16px 8px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--gray-900);
+      background: white;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color 0.15s;
+    }
+    .field .input-wrap input:focus,
+    .field .input-wrap select:focus { border-color: var(--gray-600); }
+
+    .field .input-wrap label {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: var(--gray-400);
+      pointer-events: none;
+      transition: all 0.15s ease;
+      font-weight: 400;
+    }
+
+    /* label flota cuando el input tiene foco o valor */
+    .field .input-wrap input:focus ~ label,
+    .field .input-wrap input:not(:placeholder-shown) ~ label,
+    .field .input-wrap select:focus ~ label,
+    .field .input-wrap.has-value label {
+      top: 8px;
+      transform: translateY(0);
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--gray-400);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .field .input-wrap input:focus ~ label,
+    .field .input-wrap select:focus ~ label {
+      color: var(--gray-600);
+    }
+
+    /* select wrapper with chevron icon */
+    .select-wrap { position: relative; }
+    .select-wrap .chevron-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+    .select-wrap select { padding-right: 40px; cursor: pointer; }
+
+    .field .hint {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-top: 5px;
+      padding-left: 2px;
+    }
+
+    /* ── NUMBER GRID ── */
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .num-btn {
+      aspect-ratio: 1;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      background: white;
+      font-size: 16px;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--gray-900);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .num-btn:hover {
+      border-color: var(--gray-600);
+      background: var(--gray-100);
+    }
+    .num-btn.selected {
+      background: var(--gray-900);
+      color: white;
+      border-color: var(--gray-900);
+    }
+    .num-btn.wide {
+      grid-column: span 5;
+      aspect-ratio: auto;
+      padding: 14px 16px;
+      font-size: 14px;
+      justify-content: flex-start;
+    }
+
+    /* ── INSURED BLOCKS ── */
+    .insured-block {
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      padding: 14px 16px 16px;
+      background: white;
+      margin-bottom: 16px;
+      animation: fadeIn 0.4s ease;
+    }
+    .insured-block .field { margin-bottom: 0; }
+    .insured-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .insured-block-header strong {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+    .btn-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gray-600);
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
+    }
+    .btn-remove:hover { color: var(--gray-900); }
+
+    /* ── DOB FIELD ── */
+    .dob-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--gray-900);
+      margin-bottom: 8px;
+    }
+    .dob-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 96px;
+      gap: 8px;
+    }
+    .dob-row input {
+      width: 100%;
+      height: 48px;
+      padding: 0 12px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--gray-900);
+      background: white;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color 0.15s;
+    }
+    .dob-row input::placeholder { color: var(--gray-400); }
+    .dob-row input:focus { border-color: var(--gray-600); }
+
+    /* custom month select */
+    .dob-cs { position: relative; }
+    .dob-cs-trigger {
+      width: 100%;
+      height: 48px;
+      padding: 0 36px 0 12px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-family: inherit;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: var(--gray-400);
+      transition: border-color 0.15s;
+      user-select: none;
+    }
+    .dob-cs-trigger.has-value { color: var(--gray-900); }
+    .dob-cs.open .dob-cs-trigger { border-color: var(--gray-600); }
+    .dob-cs-chevron {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      display: flex;
+      transition: transform 0.2s;
+    }
+    .dob-cs.open .dob-cs-chevron { transform: translateY(-50%) rotate(180deg); }
+    .dob-cs-options {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      z-index: 200;
+    }
+    .dob-cs.open .dob-cs-options { display: block; animation: fadeIn 0.15s ease; }
+    .dob-cs-option {
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--gray-900);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .dob-cs-option:hover { background: var(--gray-200); }
+    .dob-cs-option.selected {
+      font-weight: 700;
+      background: var(--gray-20);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dob-cs-option.selected::after {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 16px;
+      background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 12l5 5L20 7' stroke='%23272A30' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .btn-add-insured {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-90);
+      padding: 12px 0;
+      transition: color 0.15s;
+    }
+    .btn-add-insured:hover { color: var(--gray-900); }
+
+    /* ── CTA ── */
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background: var(--gray-900);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 40px;
+      transition: background 0.2s;
+      letter-spacing: 0.2px;
+    }
+    .btn-primary:hover { background: var(--gray-600); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-primary:disabled:hover { background: var(--gray-900); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      .header {
+        grid-template-columns: 40px 1fr 80px;
+        padding: 16px;
+        gap: 8px;
+      }
+      .logo-wrap svg { width: 80px; }
+      .main { padding: 32px 16px 56px; }
+      .step-title { font-size: 21px; }
+      .number-grid { gap: 8px; }
+      .num-btn { font-size: 14px; }
+      .phone-wrap span { display: none; }
+      .header { grid-template-columns: 40px 1fr auto; padding: 14px 16px; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header-wrap">
+  <header class="header">
+
+    <button class="btn-back hidden" id="btnBack" onclick="prevStep()" aria-label="Paso anterior">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5303 3.54975C15.8232 3.84264 15.8232 4.31752 15.5303 4.61041L9.0103 11.1304C8.53319 11.6075 8.53319 12.3926 9.0103 12.8697L15.5303 19.3897C15.8232 19.6826 15.8232 20.1575 15.5303 20.4504C15.2374 20.7433 14.7625 20.7433 14.4696 20.4504L7.94964 13.9304C6.88674 12.8675 6.88674 11.1326 7.94964 10.0697L14.4696 3.54975C14.7625 3.25685 15.2374 3.25685 15.5303 3.54975Z" fill="#424B5A"/>
+      </svg>
+    </button>
+
+    <div class="logo-wrap">
+      <svg width="215" height="59" viewBox="0 0 215 59" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_67_2)"><path fill-rule="evenodd" clip-rule="evenodd" d="M168.66 0.671875H172.81L183.09 38.6219H172.66L165.85 13.5219L168.66 0.671875ZM164.91 17.5119L170.46 38.6219H160.19L164.91 17.5119ZM181.24 0.671875H185.39L195.67 38.6219H185.24L178.42 13.5219L181.24 0.671875Z" fill="#8994A5"/><path fill-rule="evenodd" clip-rule="evenodd" d="M200.06 0.669375L202.8 10.6794H212.75L214.98 0.669375H200.06ZM212.3 12.6794L210.05 22.7894H206.07L203.34 12.6794H212.3ZM197.94 0.669375L208.22 38.6194H197.79L187.41 0.669375H197.94ZM123.37 0.609375L85.7304 0.629375L84.1504 7.64937H98.0404L91.0504 38.8794H100.69L107.7 7.64937L121.74 7.62937L123.37 0.609375Z" fill="#424B5A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M157.07 3.45066C151.98 0.210656 147.95 0.100656 144.41 0.0106563C128.45 -0.389344 116.68 10.5307 115.76 22.8107C115.03 32.6207 122.34 39.2007 135.09 39.0007C141.83 38.8907 145.63 37.5807 150.69 35.3707L152.61 26.4507C146.53 29.6207 141.34 31.1107 136.68 31.1107C132.81 31.1107 125.85 28.4907 126.1 22.2207C126.37 15.6107 130.39 8.21066 143.88 8.14066C147.22 8.12066 150.89 8.87066 155.25 12.1107L157.07 3.45066ZM50.75 0.610656H41.2L32.64 38.8707H42.23L50.75 0.610656ZM22.6 0.640656L21.04 7.71066H35.62L37.2 0.640656H22.6ZM19.39 15.5007L17.77 22.6307H30.33L31.95 15.5007H19.39ZM20.48 0.640656H10.5L2.04004 38.8907H11.99L20.48 0.640656ZM44.5 38.9407L65.54 0.550656L68.73 12.2507L62.21 24.3307H72.03L73.84 31.2407H58.51L54.41 38.9407H44.5ZM67.73 0.550656L78.14 38.8007H88.18L77.31 0.550656H67.73Z" fill="#424B5A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8.19 46.4626L7.8 48.1126C7.16 47.6826 6.43 47.4726 5.63 47.4726C4.95 47.4726 4.39 47.6426 3.96 47.9726C3.52 48.3026 3.28 48.7426 3.24 49.2926C3.22 49.5626 3.29 49.8426 3.46 50.1426C3.63 50.4426 4.15 50.9526 5.03 51.6626C5.91 52.3826 6.47 53.0026 6.73 53.5526C6.98 54.0926 7.09 54.6326 7.04 55.1726C6.97 56.0326 6.56 56.7826 5.82 57.4126C5.08 58.0426 4.14 58.3526 3 58.3526C1.99 58.3526 0.99 58.0626 0 57.4926L0.42 55.7226C1.51 56.4926 2.47 56.8726 3.3 56.8726C3.75 56.8726 4.19 56.7326 4.62 56.4526C5.05 56.1726 5.28 55.7926 5.32 55.3226C5.35 55.0126 5.27 54.7026 5.1 54.3726C4.92 54.0426 4.4 53.5126 3.52 52.7826C2.64 52.0526 2.08 51.4226 1.84 50.8826C1.6 50.3426 1.5 49.8126 1.55 49.2826C1.63 48.3526 2.1 47.5626 2.97 46.9326C3.84 46.3026 4.82 45.9926 5.93 45.9926C6.67 45.9826 7.43 46.1426 8.19 46.4626Z" fill="#424B5A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M40.4003 46.1444L40.0703 47.5744H34.9803L34.1003 51.3544H38.5903L38.2603 52.7844H33.7403L32.7903 56.7644H38.0603L37.7103 58.1944H30.7803L33.6703 46.1344H40.4003V46.1444ZM73.3303 52.9744L72.3003 57.3044C70.8603 58.0044 69.4603 58.3544 68.1003 58.3544C66.4703 58.3544 65.2103 57.8444 64.3403 56.8344C63.4603 55.8144 63.0903 54.5644 63.2203 53.0544C63.3903 51.1444 64.2903 49.4844 65.9203 48.0844C67.5603 46.6844 69.7603 45.9844 72.5503 45.9844C73.1003 45.9844 73.8203 46.0344 74.7403 46.1344L74.4103 47.5844C73.4203 47.4844 72.6703 47.4344 72.1703 47.4344C70.0903 47.4344 68.4103 47.9944 67.1403 49.1044C65.8703 50.2144 65.1603 51.5144 65.0403 53.0044C64.9403 54.1544 65.2003 55.0944 65.8203 55.8144C66.4403 56.5344 67.2903 56.9044 68.3703 56.9044C69.1803 56.9044 70.0103 56.7144 70.8603 56.3244L71.3403 54.2344H69.5303L69.8303 52.9644H73.3303V52.9744ZM108.9 46.1444L107.16 53.5844C106.79 55.1544 106.12 56.3344 105.15 57.1444C104.18 57.9544 102.94 58.3544 101.45 58.3544C100.13 58.3544 99.1003 58.0144 98.3703 57.3344C97.6403 56.6544 97.3203 55.7444 97.4203 54.6144C97.4403 54.3744 97.4803 54.1444 97.5403 53.8944L99.3703 46.1344H101.04L99.1803 54.0244C99.1403 54.1944 99.1103 54.3544 99.1003 54.5044C99.0303 55.2444 99.2403 55.8344 99.7203 56.2544C100.2 56.6744 100.85 56.8944 101.67 56.8944C102.38 56.8944 103.02 56.7344 103.59 56.4164C104.16 56.0954 104.57 55.6954 104.82 55.2154C105.07 54.7354 105.3 54.0154 105.53 53.0554L107.16 46.1254H108.9V46.1444ZM135.21 47.5744L134.32 51.4544H135.21C136.17 51.4544 136.92 51.2644 137.46 50.8854C137.99 50.5054 138.29 49.9854 138.35 49.3354C138.45 48.1654 137.74 47.5854 136.21 47.5854H135.21V47.5744ZM133.8 46.1444H136.09C137.77 46.1444 138.88 46.4654 139.43 47.0954C139.98 47.7254 140.21 48.5054 140.13 49.4154C140.077 50.1117 139.779 50.7669 139.29 51.2654C138.79 51.7954 138.12 52.1554 137.27 52.3654C137.63 52.5954 137.94 53.0454 138.21 53.6954L140.09 58.2054H138.27L137.06 55.3354C136.68 54.4354 136.34 53.7954 136.05 53.4354C135.76 53.0654 135.28 52.8854 134.62 52.8854H133.95L132.71 58.2054H130.96L133.8 46.1444ZM167.99 56.9044C169.17 56.9044 170.24 56.3044 171.22 55.1044C172.19 53.9044 172.75 52.4544 172.9 50.7554C172.99 49.7154 172.81 48.9054 172.36 48.3154C171.91 47.7254 171.25 47.4254 170.4 47.4254C169.09 47.4254 167.97 48.0454 167.04 49.2854C166.12 50.5055 165.565 51.962 165.44 53.4854C165.35 54.5354 165.53 55.3654 166 55.9754C166.46 56.6054 167.13 56.9044 167.99 56.9044ZM170.54 45.9854C171.88 45.9854 172.92 46.4454 173.67 47.3754C174.42 48.3054 174.72 49.5254 174.59 51.0454C174.41 53.1354 173.65 54.8854 172.33 56.2754C171 57.6654 169.5 58.3554 167.83 58.3554C166.51 58.3554 165.46 57.8754 164.7 56.9354C163.93 55.9854 163.61 54.7654 163.74 53.2754C163.9 51.4154 164.62 49.7354 165.91 48.2354C167.2 46.7354 168.74 45.9854 170.54 45.9854Z" fill="#424B5A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M206.33 46.4626L205.94 48.1126C205.3 47.6826 204.57 47.4726 203.77 47.4726C203.09 47.4726 202.53 47.6426 202.1 47.9726C201.66 48.3026 201.42 48.7426 201.38 49.2926C201.36 49.5626 201.43 49.8426 201.6 50.1426C201.77 50.4426 202.29 50.9526 203.17 51.6626C204.05 52.3826 204.61 53.0026 204.87 53.5526C205.12 54.0926 205.23 54.6326 205.18 55.1726C205.11 56.0326 204.7 56.7826 203.96 57.4126C203.22 58.0426 202.28 58.3526 201.14 58.3526C200.13 58.3526 199.13 58.0626 198.14 57.4926L198.56 55.7226C199.65 56.4926 200.61 56.8726 201.44 56.8726C201.89 56.8726 202.33 56.7326 202.76 56.4526C203.19 56.1726 203.42 55.7926 203.46 55.3226C203.49 55.0126 203.41 54.7026 203.24 54.3726C203.06 54.0426 202.54 53.5126 201.66 52.7826C200.78 52.0526 200.22 51.4226 199.98 50.8826C199.74 50.3426 199.64 49.8126 199.69 49.2826C199.77 48.3526 200.24 47.5626 201.11 46.9326C201.98 46.3026 202.96 45.9926 204.07 45.9926C204.82 45.9826 205.58 46.1426 206.33 46.4626Z" fill="#424B5A"/></g><defs><clipPath id="clip0_67_2"><rect width="215" height="59" fill="white"/></clipPath></defs></svg>
+    </div>
+
+    <a href="tel:900123456" class="phone-wrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 5 12.59a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.91 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="#424B5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>900 123 456</span>
+    </a>
+
+  </header>
+
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width: 6%"></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ── PASO 0: Entrada ── -->
+  <div class="step active" id="step0">
+    <h1 class="step-title">Calcula tu seguro de salud en menos de 2 minutos</h1>
+
+    <div class="option-list">
+      <button class="option-card" onclick="nextStep()">
+        <span>No soy cliente de FIATC</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6.75 3.75L11.25 9L6.75 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="option-card" onclick="nextStep()">
+        <span>Sí soy cliente de FIATC</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6.75 3.75L11.25 9L6.75 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="recover-wrap">
+      <span class="recover-text">¿Ya tienes un presupuesto?</span>
+      <button class="recover-link" onclick="nextStep()">Recupéralo aquí</button>
+    </div>
+
+    <div class="why-section">
+    <p class="why-title">¿Por qué elegir FIATC?</p>
+
+    <div class="why-list">
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-9" stroke="#424B5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6v3M11 7.5h2" stroke="#424B5A" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="why-text">
+          <strong>Médico en casa en menos de 24h</strong>
+          <span>Un profesional sanitario te visita a domicilio si no puedes desplazarte</span>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#424B5A" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="#424B5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-text">
+          <strong>Acceso directo a especialistas</strong>
+          <span>Consulta con el especialista que necesitas en días, no en meses, con horarios adaptados a ti</span>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#424B5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6M9 13h6M9 17h4" stroke="#424B5A" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="why-text">
+          <strong>Pruebas diagnósticas sin derivación</strong>
+          <span>Analíticas, radiografías y ecografías por indicación de tu médico, sin trabas</span>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="#424B5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="7" r="4" stroke="#424B5A" stroke-width="1.8"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="#424B5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-text">
+          <strong>Cobertura completa para cada etapa</strong>
+          <span>Pediatría, ginecología, salud prenatal, rehabilitación y fisioterapia incluidos</span>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke="#424B5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-text">
+          <strong>Tu salud va más allá de lo físico</strong>
+          <span>Psicología, nutrición y revisiones preventivas incluidas</span>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="5" y="2" width="14" height="20" rx="2" stroke="#424B5A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 18h.01" stroke="#424B5A" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="why-text">
+          <strong>Tú decides cómo te contactamos</strong>
+          <span>Sin llamadas no deseadas. Gestiona todo por app, web o teléfono cuando quieras</span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ── PASO 1: Código postal ── -->
+  <div class="step" id="step1">
+    <h1 class="step-title">¿Cuál es tu código postal?</h1>
+
+    <div class="field">
+      <div class="input-wrap">
+        <input type="text" id="cp" placeholder=" " maxlength="5" inputmode="numeric" pattern="[0-9]{5}" onclick="autoFillCP(this)" oninput="checkCP(this)">
+        <label for="cp">Código postal</label>
+      </div>
+    </div>
+
+    <div class="field" id="fieldZona" style="display:none; animation: fadeIn 0.2s ease;">
+      <div class="input-wrap select-wrap">
+        <select id="zona" onchange="this.closest('.input-wrap').classList.toggle('has-value', this.value !== '')">
+          <option value=""></option>
+          <option>Campanet</option>
+          <option>Ullaró</option>
+        </select>
+        <label for="zona">Selecciona una ubicación</label>
+        <span class="chevron-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.54963 8.41987C3.84252 8.12697 4.31739 8.12697 4.61029 8.41987L11.1303 14.9399C11.6074 15.417 12.3925 15.417 12.8696 14.9399L19.3896 8.41987C19.6825 8.12697 20.1574 8.12697 20.4503 8.41987C20.7432 8.71276 20.7432 9.18763 20.4503 9.48053L13.9303 16.0005C12.8674 17.0634 11.1325 17.0634 10.0696 16.0005L3.54963 9.48053C3.25673 9.18763 3.25673 8.71276 3.54963 8.41987Z" fill="#8994A5"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="nextStep()">Continuar</button>
+  </div>
+
+  <!-- ── PASO 2: Intención ── -->
+  <div class="step" id="step2">
+    <h1 class="step-title">¿Para quién es el seguro?</h1>
+
+    <div class="option-list">
+      <button class="option-card" onclick="selectIntent('me')">
+        <span>Es para mí</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6.75 3.75L11.25 9L6.75 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="option-card" onclick="selectIntent('me-others')">
+        <span>Es para mí y otras personas</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6.75 3.75L11.25 9L6.75 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="option-card" onclick="selectIntent('others')">
+        <span>Es para otras personas</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6.75 3.75L11.25 9L6.75 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── PASO 3: Fechas de nacimiento ── -->
+  <div class="step" id="step3">
+    <h1 class="step-title" id="step3Title">Añade tu fecha de nacimiento</h1>
+
+    <div id="insuredList"></div>
+
+    <button class="btn-add-insured" id="btnAddInsured" onclick="addInsured()" style="display:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Añadir asegurado
+    </button>
+
+    <button class="btn-primary" onclick="nextStep()">Continuar</button>
+  </div>
+
+</main>
+
+<script>
+  // currentStep: 0 = entrada, 1-8 = pasos del funnel
+  let currentStep = 0;
+  const totalSteps = 8;
+
+  function updateHeader() {
+    const btnBack = document.getElementById('btnBack');
+    const fill = document.getElementById('progressFill');
+
+    btnBack.classList.toggle('hidden', currentStep === 0);
+    const minWidth = 6;
+    const pct = currentStep === 0 ? minWidth : Math.max(minWidth, (currentStep / totalSteps) * 100);
+    fill.style.width = pct + '%';
+  }
+
+  function nextStep() {
+    const maxStep = 3; // pasos implementados: 0-3
+    if (currentStep >= maxStep) return;
+    document.getElementById('step' + currentStep).classList.remove('active');
+    currentStep++;
+    document.getElementById('step' + currentStep).classList.add('active');
+    updateHeader();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function prevStep() {
+    if (currentStep <= 0) return;
+    document.getElementById('step' + currentStep).classList.remove('active');
+    currentStep--;
+    document.getElementById('step' + currentStep).classList.add('active');
+    updateHeader();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let insuredCount = 0;
+  let intentMode = null;
+
+  const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const chevronSVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.55 8.42a1 1 0 0 1 1.41 0L11.13 14.94a1.25 1.25 0 0 0 1.74 0l6.52-6.52a1 1 0 1 1 1.41 1.41l-6.52 6.52a3.25 3.25 0 0 1-4.56 0L3.55 9.83a1 1 0 0 1 0-1.41z" fill="#8994A5"/></svg>`;
+
+  function dobFieldHTML(id) {
+    const opts = meses.map((m,i) =>
+      `<div class="dob-cs-option" onclick="dobSelectMonth('${id}',${i+1},'${m}')">${m}</div>`
+    ).join('');
+    return `
+      <div class="field">
+        <div class="dob-row">
+          <input type="text" inputmode="numeric" maxlength="2" id="dob-day-${id}" placeholder="DD"
+            oninput="dobDayInput(this,'${id}')">
+          <div class="dob-cs" id="dob-cs-${id}">
+            <div class="dob-cs-trigger" id="dob-cs-trigger-${id}" onclick="dobToggle('${id}')">Mes</div>
+            <span class="dob-cs-chevron">${chevronSVG}</span>
+            <div class="dob-cs-options">${opts}</div>
+          </div>
+          <input type="text" inputmode="numeric" maxlength="4" id="dob-year-${id}" placeholder="AAAA">
+        </div>
+      </div>`;
+  }
+
+  function dobDayInput(input, id) {
+    input.value = input.value.replace(/\D/g,'').slice(0,2);
+    if (input.value.length === 2) dobOpen(id);
+  }
+
+  function dobToggle(id) {
+    const el = document.getElementById('dob-cs-' + id);
+    el.classList.toggle('open');
+  }
+
+  function dobOpen(id) {
+    document.getElementById('dob-cs-' + id).classList.add('open');
+  }
+
+  function dobSelectMonth(id, value, label) {
+    const trigger = document.getElementById('dob-cs-trigger-' + id);
+    trigger.textContent = label;
+    trigger.classList.add('has-value');
+    document.getElementById('dob-cs-' + id).classList.remove('open');
+    document.querySelectorAll(`#dob-cs-${id} .dob-cs-option`).forEach(o => {
+      o.classList.toggle('selected', o.textContent === label);
+    });
+    document.getElementById('dob-year-' + id).focus();
+  }
+
+  // cerrar dropdowns al clicar fuera
+  document.addEventListener('click', e => {
+    document.querySelectorAll('.dob-cs.open').forEach(cs => {
+      if (!cs.contains(e.target)) cs.classList.remove('open');
+    });
+  });
+
+  function insuredBlockHTML(id, label, removable) {
+    return `
+      <div class="insured-block" id="block-${id}">
+        <div class="insured-block-header">
+          <strong>${label}</strong>
+          ${removable ? `<button class="btn-remove" onclick="removeInsured(${id})" aria-label="Eliminar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.45958 3.78456L9.29681 4.75377C9.85786 4.73791 10.4189 4.72998 10.98 4.72998C12.2227 4.72998 13.4667 4.75334 14.7105 4.79954L14.5398 3.79069C14.4561 3.27767 14.4032 3.09352 14.306 2.98155C14.2523 2.9196 14.0649 2.75 13.31 2.75H10.69C9.9239 2.75 9.7422 2.91488 9.69376 2.96981C9.60165 3.07427 9.54966 3.24976 9.45958 3.78456ZM7.98035 3.53579L7.76523 4.81675C6.83202 4.86712 5.89884 4.93943 4.96572 5.03367L2.92681 5.23356C2.51458 5.27397 2.21316 5.64092 2.25357 6.05316C2.29399 6.4654 2.66093 6.76682 3.07317 6.7264L5.11317 6.5264L5.11537 6.52618C7.07045 6.3287 9.02529 6.22998 10.98 6.22998C14.2946 6.22998 17.6199 6.39869 20.926 6.72632C21.3382 6.76717 21.7055 6.46614 21.7463 6.05394C21.7872 5.64175 21.4861 5.27448 21.074 5.23364C19.4673 5.07442 17.8559 4.95217 16.243 4.868C16.242 4.8603 16.2408 4.85258 16.2395 4.84486L16.0199 3.54711L16.0105 3.48891C15.9447 3.08006 15.8462 2.46776 15.439 1.99845C14.9677 1.4554 14.2451 1.25 13.31 1.25H10.69C9.76609 1.25 9.04279 1.44012 8.56873 1.97769C8.16203 2.43887 8.06102 3.04899 7.99216 3.46487L7.98035 3.53579ZM19.5984 9.18847C19.6251 8.77512 19.3117 8.4184 18.8983 8.39172C18.4849 8.36504 18.1282 8.6785 18.1016 9.09185L17.4518 19.1577L17.4517 19.1598C17.4235 19.5625 17.3996 19.882 17.3435 20.1604C17.2889 20.4315 17.2131 20.6096 17.1152 20.7371C16.9464 20.9569 16.5294 21.2502 15.21 21.2502H8.78999C7.47055 21.2502 7.05362 20.9569 6.88479 20.7371C6.78689 20.6096 6.71109 20.4315 6.65648 20.1604C6.60041 19.882 6.57652 19.5625 6.5483 19.1598L6.54816 19.1577L5.89843 9.09185C5.87175 8.6785 5.51503 8.36504 5.10168 8.39172C4.68833 8.4184 4.37487 8.77512 4.40155 9.18847L5.05154 19.2585L5.05315 19.2816C5.0795 19.6578 5.10847 20.0716 5.186 20.4565C5.2664 20.8557 5.40809 21.277 5.69519 21.6508C6.29636 22.4335 7.31943 22.7502 8.78999 22.7502H15.21C16.6806 22.7502 17.7036 22.4335 18.3048 21.6508C18.5919 21.277 18.7336 20.8557 18.814 20.4565C18.8915 20.0716 18.9205 19.6578 18.9468 19.2816L18.9482 19.2626L19.5984 9.18847ZM9.57999 16.5C9.57999 16.0858 9.91577 15.75 10.33 15.75H13.66C14.0742 15.75 14.41 16.0858 14.41 16.5C14.41 16.9142 14.0742 17.25 13.66 17.25H10.33C9.91577 17.25 9.57999 16.9142 9.57999 16.5ZM9.5 11.75C9.08579 11.75 8.75 12.0858 8.75 12.5C8.75 12.9142 9.08579 13.25 9.5 13.25H14.5C14.9142 13.25 15.25 12.9142 15.25 12.5C15.25 12.0858 14.9142 11.75 14.5 11.75H9.5Z" fill="currentColor"/></svg>
+          </button>` : ''}
+        </div>
+        ${dobFieldHTML(id)}
+      </div>`;
+  }
+
+  function selectIntent(mode) {
+    intentMode = mode;
+    const list = document.getElementById('insuredList');
+    const btnAdd = document.getElementById('btnAddInsured');
+    const title = document.getElementById('step3Title');
+    insuredCount = 0;
+    list.innerHTML = '';
+
+    if (mode === 'me') {
+      insuredCount = 1;
+      list.innerHTML = dobFieldHTML(1);
+      btnAdd.style.display = 'none';
+      title.textContent = 'Añade tu fecha de nacimiento';
+    } else if (mode === 'me-others') {
+      insuredCount = 2;
+      list.innerHTML = insuredBlockHTML(1, 'Tú', false) + insuredBlockHTML(2, 'Asegurado 1', true);
+      btnAdd.style.display = 'flex';
+      title.textContent = 'Añade las fechas de nacimiento';
+    } else if (mode === 'others') {
+      insuredCount = 1;
+      list.innerHTML = insuredBlockHTML(1, 'Asegurado 1', false);
+      btnAdd.style.display = 'flex';
+      title.textContent = 'Añade las fechas de nacimiento';
+    }
+
+    nextStep();
+  }
+
+  function addInsured() {
+    insuredCount++;
+    const list = document.getElementById('insuredList');
+    const label = intentMode === 'me-others'
+      ? (insuredCount === 2 ? 'Asegurado 1' : `Asegurado ${insuredCount - 1}`)
+      : `Asegurado ${insuredCount}`;
+    list.insertAdjacentHTML('beforeend', insuredBlockHTML(insuredCount, label, true));
+  }
+
+  function removeInsured(id) {
+    document.getElementById('block-' + id).remove();
+  }
+
+  function autoFillDOB(input) {
+    if (input.value === '') {
+      input.value = '15/06/1985';
+      input.closest('.input-wrap').classList.add('has-value');
+    }
+  }
+
+  function autoFillCP(input) {
+    if (input.value === '') {
+      input.value = '07310';
+      input.closest('.input-wrap').classList.add('has-value');
+      checkCP(input);
+    }
+  }
+
+  function checkCP(input) {
+    const zona = document.getElementById('fieldZona');
+    if (input.value === '07310') {
+      zona.style.display = 'block';
+    } else {
+      zona.style.display = 'none';
+    }
+  }
+
+  function selectNum(btn) {
+    document.querySelectorAll('.num-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    const cont = document.getElementById('btnStep2Continue');
+    cont.disabled = false;
+  }
+</script>
+
+</body>
+</html>
