@@ -292,7 +292,8 @@
     font-size: 14px; color: var(--wf-100); background: var(--wf-0); flex-shrink: 0;
   }
   .legal-mini { font-size: 12px; color: var(--wf-60); line-height: 1.5; margin: 16px 0; }
-  .legal-more { display: none; font-size: 12px; color: var(--wf-60); line-height: 1.5; margin: -8px 0 16px; }
+  .legal-more { display: none; font-size: 12px; color: var(--wf-60); line-height: 1.5; margin: 6px 0 4px; }
+  .legal-more a { display: block; margin-top: 6px; }
   .legal-more.open { display: block; }
   .legal-mini a, .legal-more a { color: var(--wf-60); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
   .btn-skip {
@@ -1210,6 +1211,25 @@
   .interes-save-link { background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 700; color: var(--wf-90); cursor: pointer; margin-top: 36px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; }
   #step0 .recover-wrap { border-top: none; padding-top: 0; margin-top: 32px; }
   .interes-help-view { display: none; }
+  .interes-call-view { display: none; }
+  .interes-call-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .interes-call-label { font-size: 13px; font-weight: 600; color: var(--wf-90); }
+  .interes-call-input {
+    width: 100%; box-sizing: border-box;
+    padding: 12px 14px; border: 1.5px solid var(--wf-40);
+    border-radius: 10px; font-family: inherit; font-size: 16px;
+    color: var(--wf-100); background: var(--wf-0); outline: none;
+    -webkit-appearance: none; appearance: none;
+  }
+  .interes-call-input:focus { border-color: var(--wf-90); }
+  .interes-call-select-wrap { position: relative; }
+  .interes-call-select-wrap::after {
+    content: ''; position: absolute; right: 14px; top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-left: 5px solid transparent; border-right: 5px solid transparent;
+    border-top: 6px solid var(--wf-60); pointer-events: none;
+  }
   .interes-help-back {
     display: flex; align-items: center; gap: 8px;
     background: none; border: none; cursor: pointer;
@@ -1521,7 +1541,7 @@
 
       <!-- PASO CP: Código postal -->
       <div class="step" id="stepCP">
-        <h1 class="step-title">¿Cuál es tu código postal?</h1>
+        <h1 class="step-title">¡Empecemos!<br>¿Cuál es tu código postal?</h1>
         <p class="step-subtitle">La disponibilidad de coberturas puede variar según tu zona</p>
 
         <div class="input-wrap" id="cpWrap">
@@ -1543,6 +1563,9 @@
         </div>
 
         <button class="btn-primary" onclick="nextStep()">Continuar</button>
+        <div class="legal-block" style="margin-top:40px;">
+          <p class="legal-mini">FIATC Mutua de Seguros y Reaseguros, como responsable del tratamiento, utilizará tus datos para evaluar tu solicitud de seguro, ofrecerte un precio y, en su caso, gestionar la contratación. Para más detalle y para ejercer tus derechos de acceso, rectificación, oposición, supresión, limitación y portabilidad, consulta nuestra <a onclick="return false;" href="#">Política de privacidad</a> y los <a onclick="return false;" href="#">Términos de uso</a> del tarificador.</p>
+        </div>
       </div>
 
       <!-- PASO 1: ¿Para quién? -->
@@ -1649,10 +1672,18 @@
             </div>
           </div>
         </div>
-        <button class="btn-primary" onclick="nextStep()">Aceptar</button>
-        <div class="legal-block" style="margin-top:40px;">
-          <p class="legal-mini">FIATC Mutua de Seguros y Reaseguros, como responsable del tratamiento, utilizará tus datos para evaluar tu solicitud de seguro, ofrecerte un precio y, en su caso, gestionar la contratación. Para más detalle y para ejercer tus derechos de acceso, rectificación, oposición, supresión, limitación y portabilidad, consulta nuestra <a onclick="return false;" href="#">Política de privacidad</a> y los <a onclick="return false;" href="#">Términos de uso</a> del tarificador.</p>
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-top:20px;">
+          <div style="flex:1;" class="legal-block">
+            <p class="legal-mini" style="text-align:left;margin:0;">Acepto recibir comunicaciones comerciales de FIATC por email. Revocas cuando quieras.</p>
+            <p class="legal-more" style="text-align:left;">Consiento que FIATC Mutua de Seguros me envíe información comercial personalizada sobre sus productos y servicios por email, con un máximo de 2 comunicaciones al año. Puedo revocar este consentimiento en cualquier momento. El consentimiento caduca a los 24 meses. <a onclick="toggleLegal(this)">Leer menos</a></p>
+            <a class="legal-trigger legal-mini" style="display:block;margin:2px 0 0;font-weight:600;text-decoration:underline;cursor:pointer;" onclick="toggleLegal(this)">Leer más</a>
+          </div>
+          <label class="toggle-switch" style="margin-top:1px;">
+            <input type="checkbox">
+            <span class="toggle-track"></span>
+          </label>
         </div>
+        <button class="btn-primary" onclick="nextStep()">Aceptar</button>
       </div>
 
       <!-- PASO 6b: WhatsApp (opt-in opcional, antes del precio) -->
@@ -1670,12 +1701,16 @@
             <label for="waPhone">Número de teléfono</label>
           </div>
         </div>
-        <div class="legal-block">
-          <p class="legal-mini" style="display:flex;align-items:flex-start;gap:6px;text-align:left;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>Comunicaciones comerciales. Sin spam. Revocas cuando quieras. <a onclick="toggleLegal(this)">Leer más</a></span>
-          </p>
-          <p class="legal-more" style="text-align:left;">Consiento que FIATC Mutua de Seguros me informe por WhatsApp sobre productos y servicios aseguradores de mi interés, con un máximo de 2 comunicaciones al año. Puedo revocar este consentimiento en cualquier momento. El consentimiento caduca a los 24 meses.</p>
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-top:8px;margin-bottom:4px;">
+          <div style="flex:1;" class="legal-block">
+            <p class="legal-mini" style="text-align:left;margin:0;">Acepto recibir comunicaciones comerciales de FIATC. Revocas cuando quieras.</p>
+            <p class="legal-more" style="text-align:left;">Consiento que FIATC Mutua de Seguros me informe por WhatsApp sobre productos y servicios aseguradores de mi interés, con un máximo de 2 comunicaciones al año. Puedo revocar este consentimiento en cualquier momento. El consentimiento caduca a los 24 meses. <a onclick="toggleLegal(this)">Leer menos</a></p>
+            <a class="legal-trigger legal-mini" style="display:block;margin:2px 0 0;font-weight:600;text-decoration:underline;cursor:pointer;" onclick="toggleLegal(this)">Leer más</a>
+          </div>
+          <label class="toggle-switch" style="margin-top:1px;">
+            <input type="checkbox">
+            <span class="toggle-track"></span>
+          </label>
         </div>
         <button class="btn-primary" onclick="showLoading()">Descubre tu precio final</button>
       </div>
@@ -1695,7 +1730,7 @@
 
       <!-- PASO 7: Resultados -->
       <div class="step" id="step7">
-        <div class="filter-tabs" style="margin-bottom:16px">
+        <div class="filter-tabs" style="margin-top:-8px;margin-bottom:24px">
           <button class="filter-tab active" onclick="selectFilter('para-ti',this)"
             data-title="Las opciones más populares en clientes como tú"
             data-sub="Ideales para parejas jóvenes en Barcelona">Para ti</button>
@@ -3006,7 +3041,7 @@
         <div class="interes-help-title">¿Cómo podemos ayudarte?</div>
         <div style="font-size:14px; color:var(--wf-60); margin-bottom:36px; line-height:1.4;">Tú tienes el control, elige cómo continuar</div>
         <div class="interes-links">
-          <button class="interes-link-btn">
+          <button class="interes-link-btn" onmousedown="event.preventDefault();interesShowCall()">
             <div class="interes-link-icon">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </div>
@@ -3032,6 +3067,37 @@
           </button>
         </div>
       </div>
+
+      <!-- Vista agendar llamada -->
+      <div class="interes-call-view">
+        <button class="interes-help-back" onmousedown="event.preventDefault();interesBackToHelp()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          Atrás
+        </button>
+        <div class="interes-help-title">¿Cuándo te llamamos?</div>
+        <div style="font-size:14px; color:var(--wf-60); margin-bottom:28px; line-height:1.4;">Déjanos tu número y te llamamos cuando mejor te venga</div>
+        <div class="interes-call-field">
+          <label class="interes-call-label">Teléfono</label>
+          <input class="interes-call-input" type="tel" placeholder="6xx xxx xxx" />
+        </div>
+        <div class="interes-call-field">
+          <label class="interes-call-label">¿Cuándo prefieres que te llamemos?</label>
+          <div class="interes-call-select-wrap">
+            <select class="interes-call-input" style="cursor:pointer; padding-right:36px;">
+              <option value="" disabled selected>Selecciona una franja</option>
+              <option>Mañana (9h–13h)</option>
+              <option>Mediodía (13h–16h)</option>
+              <option>Tarde (16h–20h)</option>
+            </select>
+          </div>
+        </div>
+        <p class="legal-mini" style="margin-bottom:24px;">Al continuar aceptas nuestra <a href="#" style="color:var(--wf-60);">política de privacidad</a>. Tus datos se usarán únicamente para gestionar tu solicitud de llamada.</p>
+        <button class="interes-cta-primary" onmousedown="event.preventDefault();closeInteresSheet()">
+          <span>Agendar llamada</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
     </div>
   </div>
 
@@ -3043,6 +3109,7 @@
       <button class="interes-close-btn" onclick="closeHablemosSheet()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
+      <div class="hablemos-main">
       <div class="avatar-stack">
         <div class="av"><svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="19" cy="19" r="19" fill="var(--wf-40)"/><circle cx="19" cy="15" r="7" fill="var(--wf-60)"/><ellipse cx="19" cy="34" rx="13" ry="10" fill="var(--wf-60)"/></svg></div>
         <div class="av"><svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="19" cy="19" r="19" fill="var(--wf-20)"/><circle cx="19" cy="15" r="7" fill="var(--wf-40)"/><ellipse cx="19" cy="34" rx="13" ry="10" fill="var(--wf-40)"/></svg></div>
@@ -3060,7 +3127,7 @@
           <span style="font-size:11px;font-weight:700;background:var(--wf-90);color:var(--wf-0);padding:2px 7px;border-radius:100px;letter-spacing:0.3px;">24h</span>
           <svg class="interes-link-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
-        <button class="interes-link-btn">
+        <button class="interes-link-btn" onmousedown="event.preventDefault();hablemosShowCall()">
           <div class="interes-link-icon">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
@@ -3085,6 +3152,38 @@
           <svg class="interes-link-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
+      </div><!-- end hablemos-main -->
+
+      <!-- Vista agendar llamada (Hablemos) -->
+      <div class="interes-call-view hablemos-call-view">
+        <button class="interes-help-back" onmousedown="event.preventDefault();hablemosBackToMain()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          Atrás
+        </button>
+        <div class="interes-help-title">¿Cuándo te llamamos?</div>
+        <div style="font-size:14px; color:var(--wf-60); margin-bottom:28px; line-height:1.4;">Déjanos tu número y te llamamos cuando mejor te venga</div>
+        <div class="interes-call-field">
+          <label class="interes-call-label">Teléfono</label>
+          <input class="interes-call-input" type="tel" placeholder="6xx xxx xxx" />
+        </div>
+        <div class="interes-call-field">
+          <label class="interes-call-label">¿Cuándo prefieres que te llamemos?</label>
+          <div class="interes-call-select-wrap">
+            <select class="interes-call-input" style="cursor:pointer; padding-right:36px;">
+              <option value="" disabled selected>Selecciona una franja</option>
+              <option>Mañana (9h–13h)</option>
+              <option>Mediodía (13h–16h)</option>
+              <option>Tarde (16h–20h)</option>
+            </select>
+          </div>
+        </div>
+        <p class="legal-mini" style="margin-bottom:24px;">Al continuar aceptas nuestra <a href="#" style="color:var(--wf-60);">política de privacidad</a>. Tus datos se usarán únicamente para gestionar tu solicitud de llamada.</p>
+        <button class="interes-cta-primary" onmousedown="event.preventDefault();closeHablemosSheet()">
+          <span>Agendar llamada</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
     </div>
   </div>
 
@@ -3419,9 +3518,12 @@
   }
 
   function toggleLegal(a) {
-    var more = a.closest('.legal-block').querySelector('.legal-more');
+    var block = a.closest('.legal-block');
+    var more = block.querySelector('.legal-more');
     more.classList.toggle('open');
-    a.textContent = more.classList.contains('open') ? 'Leer menos' : 'Leer más';
+    var isOpen = more.classList.contains('open');
+    var trigger = block.querySelector('.legal-trigger');
+    if (trigger) trigger.style.display = isOpen ? 'none' : '';
   }
 
   function updateHeader() {
@@ -3618,9 +3720,9 @@
   }
   function closeInteresSheet() {
     document.getElementById('interesSheet').classList.remove('open');
-    // Reset to main view on close
     document.querySelector('#interesSheet .interes-main').style.display = '';
     document.querySelector('#interesSheet .interes-help-view').style.display = '';
+    document.querySelector('#interesSheet .interes-call-view').style.display = '';
   }
 
   function interesShowHelp() {
@@ -3633,11 +3735,31 @@
     document.querySelector('#interesSheet .interes-main').style.display = '';
   }
 
+  function interesShowCall() {
+    document.querySelector('#interesSheet .interes-help-view').style.display = 'none';
+    document.querySelector('#interesSheet .interes-call-view').style.display = 'block';
+  }
+
+  function interesBackToHelp() {
+    document.querySelector('#interesSheet .interes-call-view').style.display = 'none';
+    document.querySelector('#interesSheet .interes-help-view').style.display = 'block';
+  }
+
   function openHablemosSheet() {
     document.getElementById('hablemosSheet').classList.add('open');
   }
   function closeHablemosSheet() {
     document.getElementById('hablemosSheet').classList.remove('open');
+    document.querySelector('#hablemosSheet .hablemos-main').style.display = '';
+    document.querySelector('#hablemosSheet .hablemos-call-view').style.display = '';
+  }
+  function hablemosShowCall() {
+    document.querySelector('#hablemosSheet .hablemos-main').style.display = 'none';
+    document.querySelector('#hablemosSheet .hablemos-call-view').style.display = 'block';
+  }
+  function hablemosBackToMain() {
+    document.querySelector('#hablemosSheet .hablemos-call-view').style.display = 'none';
+    document.querySelector('#hablemosSheet .hablemos-main').style.display = '';
   }
 
   function openPortabilidadSheet() {
