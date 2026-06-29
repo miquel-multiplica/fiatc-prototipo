@@ -4421,7 +4421,7 @@
     function scaleFrame() {
       var frame = document.querySelector('.phone-frame');
       if (!frame) return;
-      var scale = Math.min(1,
+      var scale = Math.min(
         (window.innerHeight - PAD) / FRAME_H,
         (window.innerWidth - PAD) / FRAME_W
       );
