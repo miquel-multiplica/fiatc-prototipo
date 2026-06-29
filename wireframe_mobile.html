@@ -2399,8 +2399,8 @@
               <div class="ques-card-info">
                 <span class="ques-card-name">Maria García</span>
                 <div style="display:flex;align-items:center;gap:8px;">
-                  <span class="ques-progress" style="font-size:12px;font-weight:600;color:var(--wf-60);min-width:28px;text-align:right;">0 / 7</span>
                   <span class="ques-tag-pending">Pendiente</span>
+                  <span class="ques-progress" style="font-size:12px;font-weight:600;color:var(--wf-60);min-width:28px;">0 / 7</span>
                 </div>
               </div>
               <button class="ques-cta" onclick="openQuestSheet(0)">Rellenar</button>
@@ -2411,8 +2411,8 @@
               <div class="ques-card-info">
                 <span class="ques-card-name">Juan García</span>
                 <div style="display:flex;align-items:center;gap:8px;">
-                  <span class="ques-progress" style="font-size:12px;font-weight:600;color:var(--wf-60);min-width:28px;text-align:right;">0 / 7</span>
                   <span class="ques-tag-pending">Pendiente</span>
+                  <span class="ques-progress" style="font-size:12px;font-weight:600;color:var(--wf-60);min-width:28px;">0 / 7</span>
                 </div>
               </div>
               <button class="ques-cta" onclick="openQuestSheet(1)">Rellenar</button>
@@ -2420,8 +2420,9 @@
           </div>
         </div>
 
-        <div class="step-preprompts">
-          <p style="font-size:17px;font-weight:700;color:var(--wf-100);margin:36px 0 12px;">¿Tienes dudas sobre el cuestionario?</p>
+        <button class="btn-primary" id="questContinuarBtn" onclick="openFirmaConfirmSheet()" style="display:none; margin-bottom:0;">Confirmar y firmar</button>
+        <div class="step-preprompts" style="margin-bottom:80px;">
+          <p style="font-size:17px;font-weight:700;color:var(--wf-100);margin:32px 0 12px;">¿Tienes dudas sobre el cuestionario?</p>
           <div class="ai-prompts-scroll" style="margin:0 -20px;padding:0 20px 4px;">
             <button class="ai-prompt-pill" onmousedown="event.preventDefault();launchChatWithPrompt('¿Tengo que declarar la medicación que tomo?')"><span class="ai-sparkle">✦</span> ¿Tengo que declarar medicación?</button>
             <button class="ai-prompt-pill" onmousedown="event.preventDefault();launchChatWithPrompt('¿Afecta a mi precio responder que sí en el cuestionario?')"><span class="ai-sparkle">✦</span> ¿Afecta a mi precio responder sí?</button>
@@ -2429,7 +2430,6 @@
             <button class="ai-prompt-pill ai-prompt-pill--cta" onmousedown="event.preventDefault();document.getElementById('chatInput').value='';document.getElementById('chatSendBtn').disabled=true;chatManuallyClosed=false;openChat();">Pregunta otra cosa</button>
           </div>
         </div>
-        <button class="btn-primary" id="questContinuarBtn" onclick="openFirmaConfirmSheet()" style="display:none; margin-bottom:80px;">Confirmar y firmar</button>
       </div>
 
       <!-- C6a — Confirma tu teléfono -->
@@ -4206,7 +4206,7 @@
       var verb = isToday ? 'comienza' : 'comenzará';
       subEl.innerHTML = 'Tu cobertura ' + verb + ' el <strong>' + selectedStartDate + '</strong>';
     }
-    var nombre = (document.getElementById('a1NombreInput') || {}).value || 'asegurado';
+    var nombre = (document.getElementById('a1NombreInput') || {}).value || 'Joan';
     if (nameEl && nombre) nameEl.textContent = nombre.split(' ')[0] || nombre;
     if (titularEl && nombre) titularEl.textContent = nombre;
     var emailEl = document.getElementById('confirmEmail');
