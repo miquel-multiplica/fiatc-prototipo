@@ -1129,6 +1129,16 @@
   .racc.open .racc-body { max-height: 200px; }
   .racc-body p { font-size: 14px; color: var(--wf-90); margin: 0 0 10px; line-height: 1.4; }
 
+  /* ── STEP 0 STICKY CTA BAR ── */
+  .step0-sticky-bar {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 50;
+    background: var(--wf-0); border-top: 1px solid var(--wf-40);
+    padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0px));
+    transform: translateY(100%); transition: transform 0.25s ease;
+    pointer-events: none;
+  }
+  .step0-sticky-bar.visible { transform: translateY(0); pointer-events: auto; }
+
   /* Hide footer only during loading spinner */
   .phone-frame.loading-active footer { display: none !important; }
   .phone-frame.loading-active .chat-fab-wrap { display: none !important; }
@@ -1449,7 +1459,7 @@
           <span>Te añadimos más coberturas cada año</span>
         </div>
 
-        <button class="btn-primary" onclick="nextStep()" style="margin-top:24px;">Calcula tu precio online</button>
+        <button class="btn-primary" id="step0Cta" onclick="nextStep()" style="margin-top:24px;">Calcula tu precio online</button>
 
         <button class="btn-skip" style="margin-top:16px;" onclick="nextStep()">Recuperar presupuesto anterior</button>
 
@@ -3356,6 +3366,11 @@
     <div class="kb-bar">◀ &nbsp;&nbsp; ● &nbsp;&nbsp; ■</div>
   </div>
 
+  <!-- STICKY CTA (paso 0, aparece al hacer scroll) -->
+  <div class="step0-sticky-bar" id="step0StickyBar">
+    <button class="btn-primary" style="margin:0;" onclick="nextStep()">Calcula tu precio online</button>
+  </div>
+
   <!-- RESUMEN DEL SEGURO FAB -->
   <div class="summary-fab" id="summaryFab">
     <button class="summary-fab-btn" onclick="openResumenSheet()">
@@ -3641,6 +3656,21 @@
     }
     document.getElementById('progressFill').style.width = pct + '%';
   }
+
+  function updateStep0StickyBar() {
+    const bar = document.getElementById('step0StickyBar');
+    const step0 = document.getElementById('step0');
+    if (!step0.classList.contains('active')) {
+      bar.classList.remove('visible');
+      return;
+    }
+    const cta = document.getElementById('step0Cta');
+    const scrollArea = document.getElementById('scrollArea');
+    const ctaBottom = cta.getBoundingClientRect().bottom;
+    const scrollAreaTop = scrollArea.getBoundingClientRect().top;
+    bar.classList.toggle('visible', ctaBottom < scrollAreaTop);
+  }
+  document.getElementById('scrollArea').addEventListener('scroll', updateStep0StickyBar, { passive: true });
 
   function startContratacion(cardName, price, numAsegurados) {
     // Clear any step that might be active (cotización or leftover contract steps)
